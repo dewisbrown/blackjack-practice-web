@@ -36,6 +36,8 @@ const player = () => {
         return value;
     }
 
+    const canSplit = () => hand[0].rank === hand[1].rank;
+
     const printHand = () => {
         let str = "";
         for (let i = 0; i < hand.length; i++) {
@@ -44,7 +46,7 @@ const player = () => {
         return str;
     }
 
-    return { hand, getHandValue, hit, clearHand, printHand };
+    return { hand, getHandValue, hit, clearHand, printHand, canSplit };
 }
 
 // Playing card object literal
@@ -58,10 +60,10 @@ function Card(suit, rank, value) {
     }
 
     const suitSymbol = () => {
-        if (suit == 'C') return '\u2663';
-        if (suit == 'D') return '\u2666';
-        if (suit == 'H') return '\u2665';
-        if (suit == 'S') return '\u2660';
+        if (suit === 'C') return '\u2663';
+        if (suit === 'D') return '\u2666';
+        if (suit === 'H') return '\u2665';
+        if (suit === 'S') return '\u2660';
     }
 
     const setValue = (val) => {
@@ -120,7 +122,7 @@ const casinoDeck = () => {
     return { getCard, getNumCards };
 }
 
-const gameController = (() => {
+const blackjack = (() => {
     let deck = casinoDeck();
     const dealer = player();
     const user = player();
@@ -137,38 +139,63 @@ const gameController = (() => {
         dealer.hit(deck.getCard());
         user.hit(deck.getCard());
         user.hit(deck.getCard());
+
+        screenController.displayCards(dealer.hand, user.hand);
     }
 
-    const getAction = (action) => {
+    const checkAction = (action) => {
         // search map for correct action
-        const pair = new Pair(dealer.getHandValue(), user.getHandValue());
-        return actionMap.get(pair);
+        if (user.canSplit()) {
+            const splitAction = splitMap.get(JSON.stringify([user.hand[0].getValue(), dealer.getHandValue()]));
+            if (splitAction) {
+                if (action === "SPLIT") {
+                    screenController.correct();
+                } else {
+                    screenController.wrong("SPLIT");
+                    return;
+                }
+            }
+        }
+
+        const pair = JSON.stringify([user.getHandValue(), dealer.getHandValue()]);
+        const correctAction = actionMap.get(pair);
+        
+        if (actionMap.get(pair) === action) {
+            screenController.correct();
+        } else {
+            screenController.wrong(correctAction);
+        }
     }
 
+    return { dealCards, checkAction };
 })();
 
 const screenController = (() => {
+    const dealerDiv = document.getElementById("dealer");
+    const userDiv = document.getElementById("user");
+    const successDiv = document.getElementById("success");
+    
+    const displayCards = (dealerHand, userHand) => {
+        dealerDiv.children[0].innerHTML = dealerHand[0].printCard();
+        userDiv.children[0].innerHTML = userHand[0].printCard();
+        userDiv.children[1].innerHTML = userHand[1].printCard();
+    }
 
+    const correct = () => {
+        successDiv.style.background = 'green';
+        successDiv.innerHTML = "Correct!";
+    }
+
+    const wrong = (correctAction) => {
+        successDiv.style.background = 'red';
+        successDiv.innerHTML = `Wrong! Correct action: ${correctAction}`;
+    }
+
+    return { displayCards, correct, wrong };
 })();
 
-// Testing stuff
-let deck = casinoDeck();
-const dealer = player();
-const user = player();
-
-dealer.hit(deck.getCard());
-
-user.hit(deck.getCard());
-user.hit(deck.getCard());
-
-console.log(`Dealer hand: ${dealer.printHand()}`);
-console.log(`Player hand: ${user.printHand()}`);
-
-const actionMap = new Map();
-const splitMap = new Map();
-initMaps();
-
-function initMaps() {
+// Map setups
+function initActionMap() {
     for (let i = 18; i < 22; i++) {
         for (let j = 4; j < 22; j++) {
             actionMap.set(JSON.stringify([i, j]), "STAY");
@@ -233,8 +260,9 @@ function initMaps() {
     for (let i = 4; i < 7; i++) {
         actionMap.set(JSON.stringify([12, i]), "STAY");
     }
+}
 
-    // init split map
+function initSplitMap() {
     for (let i = 2; i < 12; i++) {
         splitMap.set(JSON.stringify([11, i]), "SPLIT");
         splitMap.set(JSON.stringify([8, i]), "SPLIT");
@@ -255,3 +283,61 @@ function initMaps() {
     splitMap.set(JSON.stringify([9, 8]), "SPLIT");
     splitMap.set(JSON.stringify([9, 9]), "SPLIT");
 }
+
+function initSvgPathMap() {
+    svgPathMap.set(JSON.stringify(['A', 'C']), "../images/ace_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['J', 'C']), "../images/jack_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'C']), "../images/queen_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['K', 'C']), "../images/king_of_clubs.svg");
+
+    svgPathMap.set(JSON.stringify(['A', 'D']), "../images/ace_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['J', 'D']), "../images/jack_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'D']), "../images/queen_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['K', 'D']), "../images/king_of_diamonds.svg");
+
+    svgPathMap.set(JSON.stringify(['A', 'H']), "../images/ace_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['J', 'H']), "../images/jack_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'H']), "../images/queen_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['K', 'H']), "../images/king_of_hearts.svg");
+
+    svgPathMap.set(JSON.stringify(['A', 'S']), "../images/ace_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['J', 'S']), "../images/jack_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'S']), "../images/queen_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['K', 'S']), "../images/king_of_spades.svg");
+
+    for (let i = 2; i < 11; i++) {
+        svgPathMap.set(JSON.stringify([i.toString(), 'C']), `../images/${i.toString()}_of_clubs.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'D']), `../images/${i.toString()}_of_diamonds.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'H']), `../images/${i.toString()}_of_hearts.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'S']), `../images/${i.toString()}_of_spades.svg`);
+    }
+}
+
+// Program setup and start
+const actionMap = new Map();
+const splitMap = new Map();
+const svgPathMap = new Map();
+
+initActionMap();
+initSplitMap();
+initSvgPathMap();
+
+blackjack.dealCards();
+
+// Add event listeners to buttons
+document.getElementById("hit").addEventListener('click', () => {
+    blackjack.checkAction("HIT");
+    blackjack.dealCards();
+});
+document.getElementById("stay").addEventListener('click', () => {
+    blackjack.checkAction("STAY");
+    blackjack.dealCards();
+});
+document.getElementById("double").addEventListener('click', () => {
+    blackjack.checkAction("DOUBLE");
+    blackjack.dealCards();
+});
+document.getElementById("split").addEventListener('click', () => {
+    blackjack.checkAction("SPLIT");
+    blackjack.dealCards();
+});
