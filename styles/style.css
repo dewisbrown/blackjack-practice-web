@@ -1,0 +1,18 @@
+#button-panel {
+    display: flex;
+    column-gap: 10px;
+}
+
+.action-btn {
+    border: 1px black solid;
+    padding: 10px;
+}
+
+.action-btn:hover {
+    cursor: pointer;
+}
+
+#dealer, #user {
+    display: flex;
+    column-gap: 10px;
+}
