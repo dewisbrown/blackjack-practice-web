@@ -182,12 +182,14 @@ const screenController = (() => {
     }
 
     const correct = () => {
-        successDiv.style.background = 'green';
+        successDiv.style.backgroundColor = '#007BFF';
+        successDiv.style.color = 'white';
         successDiv.innerHTML = "Correct!";
     }
 
     const wrong = (correctAction) => {
         successDiv.style.background = 'red';
+        successDiv.style.color = 'white';
         successDiv.innerHTML = `Wrong! Correct action: ${correctAction}`;
     }
 
