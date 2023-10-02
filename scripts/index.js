@@ -176,9 +176,9 @@ const screenController = (() => {
     const successDiv = document.getElementById("success");
     
     const displayCards = (dealerHand, userHand) => {
-        dealerDiv.children[0].innerHTML = dealerHand[0].printCard();
-        userDiv.children[0].innerHTML = userHand[0].printCard();
-        userDiv.children[1].innerHTML = userHand[1].printCard();
+        dealerDiv.children[0].data = svgPathMap.get(JSON.stringify([dealerHand[0].rank, dealerHand[0].suit]));
+        userDiv.children[0].data = svgPathMap.get(JSON.stringify([userHand[0].rank, userHand[0].suit]));
+        userDiv.children[1].data = svgPathMap.get(JSON.stringify([userHand[1].rank, userHand[1].suit]));
     }
 
     const correct = () => {
@@ -285,31 +285,31 @@ function initSplitMap() {
 }
 
 function initSvgPathMap() {
-    svgPathMap.set(JSON.stringify(['A', 'C']), "../images/ace_of_clubs.svg");
-    svgPathMap.set(JSON.stringify(['J', 'C']), "../images/jack_of_clubs.svg");
-    svgPathMap.set(JSON.stringify(['Q', 'C']), "../images/queen_of_clubs.svg");
-    svgPathMap.set(JSON.stringify(['K', 'C']), "../images/king_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['A', 'C']), "images/ace_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['J', 'C']), "images/jack_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'C']), "images/queen_of_clubs.svg");
+    svgPathMap.set(JSON.stringify(['K', 'C']), "images/king_of_clubs.svg");
 
-    svgPathMap.set(JSON.stringify(['A', 'D']), "../images/ace_of_diamonds.svg");
-    svgPathMap.set(JSON.stringify(['J', 'D']), "../images/jack_of_diamonds.svg");
-    svgPathMap.set(JSON.stringify(['Q', 'D']), "../images/queen_of_diamonds.svg");
-    svgPathMap.set(JSON.stringify(['K', 'D']), "../images/king_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['A', 'D']), "images/ace_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['J', 'D']), "images/jack_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'D']), "images/queen_of_diamonds.svg");
+    svgPathMap.set(JSON.stringify(['K', 'D']), "images/king_of_diamonds.svg");
 
-    svgPathMap.set(JSON.stringify(['A', 'H']), "../images/ace_of_hearts.svg");
-    svgPathMap.set(JSON.stringify(['J', 'H']), "../images/jack_of_hearts.svg");
-    svgPathMap.set(JSON.stringify(['Q', 'H']), "../images/queen_of_hearts.svg");
-    svgPathMap.set(JSON.stringify(['K', 'H']), "../images/king_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['A', 'H']), "images/ace_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['J', 'H']), "images/jack_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'H']), "images/queen_of_hearts.svg");
+    svgPathMap.set(JSON.stringify(['K', 'H']), "images/king_of_hearts.svg");
 
-    svgPathMap.set(JSON.stringify(['A', 'S']), "../images/ace_of_spades.svg");
-    svgPathMap.set(JSON.stringify(['J', 'S']), "../images/jack_of_spades.svg");
-    svgPathMap.set(JSON.stringify(['Q', 'S']), "../images/queen_of_spades.svg");
-    svgPathMap.set(JSON.stringify(['K', 'S']), "../images/king_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['A', 'S']), "images/ace_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['J', 'S']), "images/jack_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['Q', 'S']), "images/queen_of_spades.svg");
+    svgPathMap.set(JSON.stringify(['K', 'S']), "images/king_of_spades.svg");
 
     for (let i = 2; i < 11; i++) {
-        svgPathMap.set(JSON.stringify([i.toString(), 'C']), `../images/${i.toString()}_of_clubs.svg`);
-        svgPathMap.set(JSON.stringify([i.toString(), 'D']), `../images/${i.toString()}_of_diamonds.svg`);
-        svgPathMap.set(JSON.stringify([i.toString(), 'H']), `../images/${i.toString()}_of_hearts.svg`);
-        svgPathMap.set(JSON.stringify([i.toString(), 'S']), `../images/${i.toString()}_of_spades.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'C']), `images/${i.toString()}_of_clubs.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'D']), `images/${i.toString()}_of_diamonds.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'H']), `images/${i.toString()}_of_hearts.svg`);
+        svgPathMap.set(JSON.stringify([i.toString(), 'S']), `images/${i.toString()}_of_spades.svg`);
     }
 }
 
