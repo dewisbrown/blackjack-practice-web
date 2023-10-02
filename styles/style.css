@@ -76,6 +76,7 @@ body {
     border: none;
     cursor: pointer;
     transition: background-color 0.2s;
+    text-align: center;
 }
 
 .action-btn:hover {
@@ -87,35 +88,20 @@ body {
     margin-top: 20px; /* Adjust the margin as needed */
     padding: 10px;
 }
-/*
-#button-panel {
-    display: flex;
-    column-gap: 10px;
-}
 
-.action-btn {
-    border: 1px black solid;
-    padding: 10px;
-}
+@media screen and (max-width: 768px) {
+    /* Styles for mobile devices */
+    #card-container {
+        flex-direction: row; /* Change the flex-direction to create a 2x2 grid */
+        flex-wrap: wrap; /* Allow items to wrap to the next row */
+    }
 
-.action-btn:hover {
-    cursor: pointer;
-}
+    #dealer, #user {
+        width: 100%; /* Make each dealer/user take up the full width */
+        text-align: center; /* Center the cards within their containers */
+    }
 
-#dealer, #user {
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
+    #button-panel {
+        flex-direction: column; /* Arrange buttons vertically for easier tapping */
+    }
 }
-
-#card-container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-#gameboard {
-    display: flex;
-    flex-direction: column;
-}
-*/
