@@ -1,0 +1,11 @@
+{
+  "name": "blackjack-practice-web",
+  "version": "1.0.0",
+  "description": "Cloning the java version for html/js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Moreno <luismoreno2103@gmail.com> (https://github.com/dewisbrown)",
+  "license": "ISC"
+}
