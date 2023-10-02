@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css" />
     <title>Blackjack Practice</title>
 </head>
 <body>
@@ -10,19 +11,21 @@
         <main class="main-content">
             <div id="gameboard">
                 <div id="dealer">
-                    <div class="card">CARD</div>
-                    <div class="card">CARD</div>
+                    <div class="card"></div>
+                    <object class="card" data="images/red_joker.svg" type="image/svg+xml"></object>
+                    <div class="card"></div>
                 </div>
-                <div id="player">
-                    <div class="card">CARD</div>
-                    <div class="card">CARD</div>
+                <div id="user">
+                    <div class="card"></div>
+                    <div class="card"></div>
                 </div>
                 <div id="button-panel">
-                    <button class="action-btn">HIT</button>
-                    <button class="action-btn">STAND</button>
-                    <button class="action-btn">DOUBLE</button>
-                    <button class="action-btn">SPLIT</button>
+                    <div class="action-btn" id="hit">HIT</div>
+                    <div class="action-btn" id="stay">STAY</div>
+                    <div class="action-btn" id="double">DOUBLE</div>
+                    <div class="action-btn" id="split">SPLIT</div>
                 </div>
+                <div id="success"></div>
             </div>
         </main>
     </div>
