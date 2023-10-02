@@ -47,12 +47,6 @@ const player = () => {
     return { hand, getHandValue, hit, clearHand, printHand };
 }
 
-// Pair object literal used for map
-function Pair(dealer, player) {
-    this.dealer = dealer;
-    this.player = player;
-}
-
 // Playing card object literal
 function Card(suit, rank, value) {
     this.suit = suit;
@@ -169,3 +163,95 @@ user.hit(deck.getCard());
 
 console.log(`Dealer hand: ${dealer.printHand()}`);
 console.log(`Player hand: ${user.printHand()}`);
+
+const actionMap = new Map();
+const splitMap = new Map();
+initMaps();
+
+function initMaps() {
+    for (let i = 18; i < 22; i++) {
+        for (let j = 4; j < 22; j++) {
+            actionMap.set(JSON.stringify([i, j]), "STAY");
+        }
+    }
+
+    for (let i = 4; i < 8; i++) {
+        for (let j = 2; j < 12; j++) {
+            actionMap.set(JSON.stringify([i, j]), "HIT");
+        }
+    }
+
+    for (let i = 4; i < 22; i++) {
+        for (let j = 2; j < 8; j++) {
+            actionMap.set(JSON.stringify([i, j]), "HIT");
+        }
+    }
+
+    for (let i = 2; i < 12; i++) {
+        actionMap.set(JSON.stringify([8, i]), "HIT");
+        actionMap.set(JSON.stringify([11, i]), "DOUBLE");
+        for (let j = 17; j < 22; j++) {
+            actionMap.set(JSON.stringify([j, i]), "STAY");
+        }
+    }
+
+    for (let i = 13; i < 17; i++) {
+        for (let j = 2; j < 7; j++) {
+            actionMap.set(JSON.stringify([i, j]), "STAY");
+        }
+    }
+
+    for (let i = 12; i < 17; i++) {
+        for (let j = 7; j < 12; j++) {
+            actionMap.set(JSON.stringify([i, j]), "HIT");
+        }
+    }
+
+    // mapping actions for 9
+    actionMap.set(JSON.stringify([9, 2]), "HIT");
+
+    for (let i = 3; i < 7; i++) {
+        actionMap.set(JSON.stringify([9, i]), "STAY");
+    }
+
+    for (let i = 7; i < 12; i++) {
+        actionMap.set(JSON.stringify([9, i]), "HIT");
+    }
+
+    // mapping actions for 10
+    for (let i = 2; i < 10; i++) {
+        actionMap.set(JSON.stringify([10, i]), "DOUBLE");
+    }
+
+    actionMap.set(JSON.stringify([10, 10]), "HIT");
+    actionMap.set(JSON.stringify([10, 11]), "HIT");
+
+    // mapping actions for 12
+    actionMap.set(JSON.stringify([12, 2]), "HIT");
+    actionMap.set(JSON.stringify([12, 3]), "HIT");
+
+    for (let i = 4; i < 7; i++) {
+        actionMap.set(JSON.stringify([12, i]), "STAY");
+    }
+
+    // init split map
+    for (let i = 2; i < 12; i++) {
+        splitMap.set(JSON.stringify([11, i]), "SPLIT");
+        splitMap.set(JSON.stringify([8, i]), "SPLIT");
+    }
+
+    for (let i = 2; i < 7; i++) {
+        splitMap.set(JSON.stringify([9, i]), "SPLIT");
+        splitMap.set(JSON.stringify([7, i]), "SPLIT");
+        splitMap.set(JSON.stringify([6, i]), "SPLIT");  // split if double after split allowed (DAS): player: 6-6, dealer: 2
+    }
+
+    for (let i = 4; i < 8; i++) {
+        splitMap.set(JSON.stringify([2, i]), "SPLIT");
+        splitMap.set(JSON.stringify([3, i]), "SPLIT");
+    }
+
+    splitMap.set(JSON.stringify([7, 7]), "SPLIT");
+    splitMap.set(JSON.stringify([9, 8]), "SPLIT");
+    splitMap.set(JSON.stringify([9, 9]), "SPLIT");
+}
