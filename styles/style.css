@@ -5,11 +5,17 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
+/*
 body {
     background-image: url('https://static.vecteezy.com/system/resources/previews/002/082/622/original/poker-background-with-playing-cards-and-chips-on-green-casino-background-modern-poker-widescreen-wallpaper-vector.jpg');
-    background-size: cover; /* Scale the background image to cover the entire viewport */
-    background-repeat: no-repeat; /* Prevent the background image from repeating */
-    background-attachment: fixed; /* Fix the background image in place */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+*/
+
+body {
+    background-color: #00703c;
 }
 
 .main-wrapper {
