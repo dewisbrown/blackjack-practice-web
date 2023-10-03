@@ -5,15 +5,6 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
-/*
-body {
-    background-image: url('https://static.vecteezy.com/system/resources/previews/002/082/622/original/poker-background-with-playing-cards-and-chips-on-green-casino-background-modern-poker-widescreen-wallpaper-vector.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-*/
-
 body {
     background-color: #00703c;
 }
@@ -77,6 +68,7 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
     text-align: center;
+    border-radius: 5px;
 }
 
 .action-btn:hover {
@@ -92,16 +84,39 @@ body {
 @media screen and (max-width: 768px) {
     /* Styles for mobile devices */
     #card-container {
-        flex-direction: row; /* Change the flex-direction to create a 2x2 grid */
-        flex-wrap: wrap; /* Allow items to wrap to the next row */
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 20px;
     }
 
     #dealer, #user {
-        width: 100%; /* Make each dealer/user take up the full width */
-        text-align: center; /* Center the cards within their containers */
+        width: 100%;
+        text-align: center;
     }
 
     #button-panel {
-        flex-direction: column; /* Arrange buttons vertically for easier tapping */
+        flex-direction: column;
+        width: 90px;
+        margin: 0;
+    }
+
+    .card {
+        width: 100px;
+        height: auto;
+    }
+
+    #bottom-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    #success {
+        width: 90px;
+        margin: 0;
+        border-radius: 10px;
+        padding-top: 20px;
+        vertical-align: middle;
     }
 }
