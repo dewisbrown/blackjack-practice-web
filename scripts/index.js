@@ -182,7 +182,7 @@ const screenController = (() => {
     }
 
     const correct = () => {
-        successDiv.style.backgroundColor = '#007BFF';
+        successDiv.style.backgroundColor = '#20b300';
         successDiv.style.color = 'white';
         successDiv.innerHTML = "Correct!";
     }
@@ -190,7 +190,7 @@ const screenController = (() => {
     const wrong = (correctAction) => {
         successDiv.style.background = 'red';
         successDiv.style.color = 'white';
-        successDiv.innerHTML = `Wrong! Correct action: ${correctAction}`;
+        successDiv.innerHTML = correctAction;
     }
 
     return { displayCards, correct, wrong };
