@@ -36,8 +36,6 @@ const player = () => {
         return value;
     }
 
-    const canSplit = () => hand[0].rank === hand[1].rank;
-
     const printHand = () => {
         let str = "";
         for (let i = 0; i < hand.length; i++) {
@@ -46,7 +44,7 @@ const player = () => {
         return str;
     }
 
-    return { hand, getHandValue, hit, clearHand, printHand, canSplit };
+    return { hand, hit, clearHand, printHand };
 }
 
 // Playing card object literal
@@ -145,8 +143,8 @@ const blackjack = (() => {
 
     const checkAction = (action) => {
         // search map for correct action
-        if (user.canSplit()) {
-            const splitAction = splitMap.get(JSON.stringify([user.hand[0].getValue(), dealer.getHandValue()]));
+        if (canSplit(user.hand)) {
+            const splitAction = splitMap.get(JSON.stringify([(getHandValue(user.hand) / 2), getHandValue(dealer.hand)]));
             if (splitAction) {
                 if (action === "SPLIT") {
                     screenController.correct();
@@ -157,7 +155,7 @@ const blackjack = (() => {
             }
         }
 
-        const pair = JSON.stringify([user.getHandValue(), dealer.getHandValue()]);
+        const pair = JSON.stringify([getHandValue(user.hand), getHandValue(dealer.hand)]);
         const correctAction = actionMap.get(pair);
         
         if (actionMap.get(pair) === action) {
@@ -166,6 +164,35 @@ const blackjack = (() => {
             screenController.wrong(correctAction);
         }
     }
+
+    // Calculate value of hand
+    const getHandValue = (hand) => {
+        let value = 0;
+        const aceIndex = [];
+        let hasAce = false;
+
+        for (let i = 0; i < hand.length; i++) {
+            if (hand[i].rank == "A") {
+                hasAce = true;
+                aceIndex.push(i);
+            }
+            value += hand[i].getValue();
+        }
+
+        // change ace value to 1 if hand value > 21 and recount
+        while (value > 21 && hasAce) {
+            hand[aceIndex.pop()].setValue(1);
+
+            value = 0;
+            for (let i = 0; i < hand.length; i++) {
+                value += hand[i].value;
+            }
+        }
+
+        return value;
+    }
+
+    const canSplit = (hand) => hand[0].rank === hand[1].rank;
 
     return { dealCards, checkAction };
 })();
@@ -240,7 +267,7 @@ function initActionMap() {
     actionMap.set(JSON.stringify([9, 2]), "HIT");
 
     for (let i = 3; i < 7; i++) {
-        actionMap.set(JSON.stringify([9, i]), "STAY");
+        actionMap.set(JSON.stringify([9, i]), "DOUBLE");
     }
 
     for (let i = 7; i < 12; i++) {
